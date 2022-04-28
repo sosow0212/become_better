@@ -21,8 +21,6 @@ const Main = () => {
 
     setBmi(weight / (height/100) ** 2)
     console.log(bmi)
-
-
   }
 
   const bmiCal = () => {

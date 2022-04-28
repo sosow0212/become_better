@@ -27,7 +27,7 @@ const Header = () => {
             <Link to="/info" className="navbar-brand">
               내 정보
             </Link>
-            <Link to="/register" className="navbar-brand">
+            <Link to="/login" className="navbar-brand">
               로그인
             </Link>
           </Nav>
