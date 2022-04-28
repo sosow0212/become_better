@@ -19,7 +19,7 @@ public class BodyInfo {
     private int id;
 
     @JsonIgnoreProperties({"bodyInfo"})
-    @OneToOne(mappedBy = "bodyInfo")
+    @OneToOne(mappedBy = "bodyInfo", cascade = CascadeType.REMOVE)
     private User user;
 
     private int height;

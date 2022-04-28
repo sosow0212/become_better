@@ -20,5 +20,6 @@ public class AuthController {
         return new ResponseEntity<>(authService.signup(user), HttpStatus.CREATED);
     }
 
-
 }
+
+

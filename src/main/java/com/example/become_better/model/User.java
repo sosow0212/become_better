@@ -1,5 +1,6 @@
 package com.example.become_better.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +24,9 @@ public class User {
     private String name;
     private String email;
 
+    @Column(name = "username", length = 50)
     private String username;
+
     private String password;
 
     private String role;
