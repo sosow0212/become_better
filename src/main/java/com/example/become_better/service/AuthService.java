@@ -1,6 +1,7 @@
 package com.example.become_better.service;
 
 
+import com.example.become_better.model.BodyInfo;
 import com.example.become_better.model.User;
 import com.example.become_better.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,8 @@ public class AuthService {
         String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);
-        user.setRole("ROLE_USER");;
+        user.setRole("ROLE_USER");
+
 
         return userRepository.save(user);
     }

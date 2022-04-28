@@ -1,5 +1,6 @@
 package com.example.become_better.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,11 +26,13 @@ public class User {
     private String username;
     private String password;
 
-    private int height;
-    private int weight;
-    private double bmi;
-
     private String role;
+
+    @JsonIgnoreProperties({"user"})
+    @OneToOne
+    @JoinColumn(name = "bodyInfo")
+    private BodyInfo bodyInfo;
+
 
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private LocalDate createDate; // 날짜
