@@ -1,19 +1,27 @@
 import React from 'react';
 import {Routes, Route} from "react-router-dom";
-import Home from './pages/Home';
 import Register from './pages/Register';
-import Header from './components/Header';
+import Main from './pages/Main'
+import Info from './pages/Info';
+import Nav from './components/Nav';
+import { Container } from 'react-bootstrap';
 
 
 
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Header/>} />
-        <Route path="/home" element={<Home/>} />
-        <Route path="/register" element={<Register/>}/>
-    </Routes>
+    <div>
+      <Nav/>
+      <Container>
+        <Routes>
+          <Route path="/" element={<Main/>}/>
+          <Route path="/info" element={<Info/>}/>
+          <Route path="/register" element={<Register/>}/>
+        </Routes>
+      </Container>
+    </div>
+    
   );
 }
 

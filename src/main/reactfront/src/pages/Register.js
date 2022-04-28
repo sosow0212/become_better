@@ -20,7 +20,12 @@ const Register = () => {
   
 
   return (
-    <div>{data.data}</div>
+    <div>
+      {data.data}
+      <button class="btn btn-primary" type="submit">Button</button>  
+    </div>
+    
+    
   )
 }
 export default Register
