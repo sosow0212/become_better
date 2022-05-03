@@ -1,19 +1,27 @@
 package com.example.become_better.config;
 
+import com.example.become_better.config.jwt.JwtAuthenticationFilter;
+import com.example.become_better.config.jwt.JwtAuthorizationFilter;
+import com.example.become_better.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 
 @EnableWebSecurity // 해당 파일로 시큐리티 활성화
 @Configuration // IoC 등록
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CorsConfig corsConfig;
 
     @Bean
     public BCryptPasswordEncoder encoder() {
@@ -21,37 +29,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    // 스프링 시큐리티, 리액트 CORS 해결
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.addAllowedOrigin("http://localhost:3000");
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
-        configuration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//      super.configure(http); // 이 코드 삭제하면 기존 시큐리티가 가진 모든 기능 비활성화
-        http.csrf().disable(); // csrf 토큰 비활성화 코드
-
-
-        http.authorizeRequests()
-                .antMatchers("/user/**").authenticated() // 이 주소로 시작되면 인증이 필요
-                .anyRequest().permitAll() // 그게 아닌 모든 주소는 인증 필요 없음
+        http
+                .addFilter(corsConfig.corsFilter())
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin()
-                .loginPage("/auth/login") // 인증필요한 주소로 접속하면 이 주소로 이동시킴
-                .loginProcessingUrl("/auth/login") // 스프링 시큐리티가 로그인 자동 진행
-//                .defaultSuccessUrl("/") // 로그인이 정상적이면 "/" 로 이동
+                .formLogin().disable()
+                .httpBasic().disable()
+                .cors()
                 .and()
-                .cors().and();
+
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
+                .authorizeRequests()
+                .antMatchers("/user/**")
+                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+                .antMatchers("/manager/**")
+                .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+                .antMatchers("/admin/**")
+                .access("hasRole('ROLE_ADMIN')")
+                .anyRequest().permitAll();
     }
 }
-

@@ -1,0 +1,8 @@
+package com.example.become_better.dto;
+
+import lombok.Data;
+@Data
+public class LoginRequestDto {
+    private String username;
+    private String password;
+}

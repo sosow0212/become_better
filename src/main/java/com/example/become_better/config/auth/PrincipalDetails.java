@@ -22,10 +22,10 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        Collection<GrantedAuthority> collector = new ArrayList<>();
-        collector.add(() -> { return user.getRole();}); // 람다식
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(() -> { return user.getRole();}); // 람다식
 
-        return collector;
+        return authorities;
     }
 
 
