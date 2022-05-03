@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
-import qs from "querystring";
+
 
 function Login() {
-  const querystring = require("querystring");
 
   const [loginData, setLoginData] = useState({
     username: "",
@@ -23,36 +22,21 @@ function Login() {
     e.preventDefault();
     console.log(loginData);
 
-    // axios
-    //   .post("http://localhost:8080/auth/login", {
-    //     username: loginData.username,
-    //     password: loginData.password,
-    //   }, {headers: {"content-Type" : "application/x-www-form-urlencoded"}})
-    //   .then((res) => {
-    //     console.log(res);
-    //   });
-
-    fetch("http://localhost:8080/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      },
-      body: querystring.stringify({
-        username: "sosow0212",
-        password: "sosow0212",
-      }),
+    axios
+    .post("http://localhost:8080/login", {
+      username: loginData.username,
+      password: loginData.password,
     })
-      .then((response) => response.json())
-      .then((responseData) => {
-        alert(JSON.stringify(responseData));
-      });
+    .then((res) => {
+      console.log(res);
+    });
   };
 
   return (
     <div className="mt-5">
       <h1>로그인</h1>
       <hr className="mb-5" />
-      <Form action="http://localhost:8080/auth/login" method="post" >
+      <Form>
         <Form.Label htmlFor="inputPassword5">User ID</Form.Label>
         <Form.Control
           onChange={onChange}
@@ -85,7 +69,7 @@ function Login() {
           variant="outline-dark"
           type="submit"
           className="mt-3"
-          // onClick={submitHandler}
+          onClick={submitHandler}
         >
           로그인
         </Button>
