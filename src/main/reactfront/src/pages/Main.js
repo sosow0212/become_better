@@ -3,6 +3,8 @@ import { Form, Button } from 'react-bootstrap'
 
 const Main = () => {
 
+  const [isLogin, setIsLogin] = useState(false);
+
   const [height, setHeight] = useState(0);
   const [weight, setWeight] = useState(0);
   const [bmi, setBmi] = useState(0);

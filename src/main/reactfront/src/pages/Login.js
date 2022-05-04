@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 function Login() {
+  const history = useNavigate();
+  const propsParam = useParams();
 
   const [loginData, setLoginData] = useState({
     username: "",
@@ -28,8 +31,14 @@ function Login() {
       password: loginData.password,
     })
     .then((res) => {
-      console.log(res);
-    });
+      if(res.status === 200) {
+        console.log("hi")
+        history('/');
+      } else {
+        console.log("no")
+      }
+      
+    })
   };
 
   return (
@@ -55,7 +64,7 @@ function Login() {
         <Form.Label htmlFor="inputPassword5">Password</Form.Label>
         <Form.Control
           onChange={onChange}
-          type="text"
+          type="password"
           id="password"
           name="password"
           aria-describedby="idHelpBlock"

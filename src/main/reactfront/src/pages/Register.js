@@ -23,7 +23,7 @@ function Register() {
     console.log(userData);
 
     axios
-      .post("http://localhost:8080/auth/register", {
+      .post("http://localhost:8080/register", {
         username: userData.username,
         password: userData.password,
         name: userData.name,
