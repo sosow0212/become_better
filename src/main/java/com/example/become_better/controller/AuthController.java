@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin
@@ -14,10 +17,18 @@ public class AuthController {
 
     private final AuthService authService;
 
+
     // 회원가입 Post
-    @PostMapping("/auth/register")
+    @PostMapping("/register")
     public ResponseEntity<?> registerProcess(@RequestBody User user) {
-        return new ResponseEntity<>(authService.signup(user), HttpStatus.CREATED);
+        ResponseEntity<?> response = authService.signup(user);
+        return response;
+    }
+
+    // 로그아웃
+    @PostMapping("/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("로그아웃 처리");
     }
 
 }

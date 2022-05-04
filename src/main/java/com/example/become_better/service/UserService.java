@@ -42,9 +42,12 @@ public class UserService {
             before.setBmi(bodyInfo.getBmi());
             user.setBodyInfo(before);
         }
-
-
-
         return user;
+    }
+
+    @Transactional
+    public String deleteUserById(int id) {
+        userRepository.deleteById(id);
+        return "삭제 완료";
     }
 }
