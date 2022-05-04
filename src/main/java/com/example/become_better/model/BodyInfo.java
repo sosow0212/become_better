@@ -19,10 +19,10 @@ public class BodyInfo {
     private int id;
 
     @JsonIgnoreProperties({"bodyInfo"})
-    @OneToOne(mappedBy = "bodyInfo", cascade = CascadeType.REMOVE)
+    @OneToOne
     private User user;
 
-    private int height;
-    private int weight;
+    private double height;
+    private double weight;
     private double bmi;
 }

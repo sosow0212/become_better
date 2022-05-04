@@ -32,7 +32,7 @@ public class User {
     private String role;
 
     @JsonIgnoreProperties({"user"})
-    @OneToOne
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JoinColumn(name = "bodyInfo")
     private BodyInfo bodyInfo;
 
