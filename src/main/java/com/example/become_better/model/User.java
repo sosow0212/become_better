@@ -10,12 +10,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@JsonIgnoreProperties("password")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,14 +34,17 @@ public class User {
 
     private String role;
 
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
+    private LocalDate createDate; // 날짜
+
     @JsonIgnoreProperties({"user"})
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JoinColumn(name = "bodyInfo")
     private BodyInfo bodyInfo;
 
-
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private LocalDate createDate; // 날짜
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({"user", "boards"})
+    private List<Board> boards = new ArrayList<>();
 
     @PrePersist // DB에 INSERT 되기 직전에 실행. 즉 DB에 값을 넣으면 자동으로 실행됨
     public void createDate() {
