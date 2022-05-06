@@ -1,5 +1,6 @@
 package com.example.become_better.controller;
 
+import com.example.become_better.dto.RegistRequestDto;
 import com.example.become_better.model.User;
 import com.example.become_better.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,12 @@ public class AuthController {
 
     // 회원가입 Post
     @PostMapping("/register")
-    public ResponseEntity<?> registerProcess(@RequestBody User user) {
+    public ResponseEntity<?> registerProcess(@RequestBody RegistRequestDto registRequestDto) {
+        User user = new User();
+        user.setUsername(registRequestDto.getUsername());
+        user.setName(registRequestDto.getName());
+        user.setEmail(registRequestDto.getEmail());
+        user.setPassword(registRequestDto.getPassword());
         ResponseEntity<?> response = authService.signup(user);
         return response;
     }

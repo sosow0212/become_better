@@ -29,6 +29,7 @@ public class User {
     @Column(name = "username", length = 50)
     private String username;
 
+    @JsonIgnore
     private String password;
 
     private String role;
