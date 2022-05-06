@@ -24,25 +24,30 @@ public class AdminService {
     }
 
     @Transactional
-    public Map<String, Double> findMemberSpecAvg() {
-        List<BodyInfo> bodyInfoList = bodyInfoRepository.findAll();
-        double heightAvg = 0, weightAvg = 0, bmiAvg = 0;
-        int count = 0;
-        for(BodyInfo bodyInfo : bodyInfoList) {
-            heightAvg += bodyInfo.getHeight();
-            weightAvg += bodyInfo.getWeight();
-            bmiAvg += bodyInfo.getBmi();
-            count ++;
+    public Object findMemberSpecAvg() {
+        if (bodyInfoRepository.findAll() == null) {
+            return "자료가 없습니다.";
+        } else {
+            List<BodyInfo> bodyInfoList = bodyInfoRepository.findAll();
+            double heightAvg = 0, weightAvg = 0, bmiAvg = 0;
+            int count = 0;
+            for (BodyInfo bodyInfo : bodyInfoList) {
+                heightAvg += bodyInfo.getHeight();
+                weightAvg += bodyInfo.getWeight();
+                bmiAvg += bodyInfo.getBmi();
+                count++;
+            }
+            heightAvg /= count;
+            weightAvg /= count;
+            bmiAvg /= count;
+
+            Map<String, Double> map = new HashMap<>();
+            map.put("heightAvg", heightAvg);
+            map.put("weightAvg", weightAvg);
+            map.put("bmiAvg", bmiAvg);
+
+            return map;
         }
-        heightAvg /= count;
-        weightAvg /= count;
-        bmiAvg /= count;
 
-        Map<String, Double> map = new HashMap<>();
-        map.put("heightAvg", heightAvg);
-        map.put("weightAvg", weightAvg);
-        map.put("bmiAvg", bmiAvg);
-
-        return map;
     }
 }
