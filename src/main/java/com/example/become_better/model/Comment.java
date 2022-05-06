@@ -9,22 +9,31 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Data
 @Entity
-public class Board {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String title;
-
+    @Column(nullable = false, length = 200)
     private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    @JsonIgnoreProperties({"user", "board", "comments"})
+    private Board board;
+
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"user", "board", "comments"})
+    private User user;
+
 
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private LocalDate createDate; // 날짜
@@ -33,14 +42,4 @@ public class Board {
     public void createDate() {
         this.createDate = LocalDate.now();
     }
-
-    @ManyToOne(fetch = FetchType.EAGER) // EAGER은 호출할 때 바로 로드하는 것임
-    @JoinColumn(name="userId")
-    private User user;
-
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) // 연관관계의 주인이 아니다 == FK가 아니라는 뜻, DB에 컬럼을 만들지 말라는 뜻
-    @JsonIgnoreProperties({"board"}) // 댓글 무한참조 방지가 됨 == getter 호출을 막음
-    @OrderBy("id desc") // Board를 부를 때, replys_id 기준으로 내림차순으로 정렬을함 - 즉 최근 댓글이 맨 위
-    private List<Comment> comments;
-
 }

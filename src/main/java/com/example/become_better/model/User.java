@@ -38,13 +38,19 @@ public class User {
     private LocalDate createDate; // 날짜
 
     @JsonIgnoreProperties({"user"})
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "bodyInfo")
     private BodyInfo bodyInfo;
 
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties({"user", "boards"})
+    @JsonIgnoreProperties({"user", "board"})
     private List<Board> boards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({"user", "comments"})
+    private List<Comment> comments = new ArrayList<>();
+
 
     @PrePersist // DB에 INSERT 되기 직전에 실행. 즉 DB에 값을 넣으면 자동으로 실행됨
     public void createDate() {
