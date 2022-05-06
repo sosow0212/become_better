@@ -35,7 +35,8 @@ public class Board {
     }
 
     @ManyToOne(fetch = FetchType.EAGER) // EAGER은 호출할 때 바로 로드하는 것임
-    @JoinColumn(name="userId")
+    @JoinColumn(name="user_Id")
+    @JsonIgnoreProperties({"boards", "comments"})
     private User user;
 
     @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) // 연관관계의 주인이 아니다 == FK가 아니라는 뜻, DB에 컬럼을 만들지 말라는 뜻

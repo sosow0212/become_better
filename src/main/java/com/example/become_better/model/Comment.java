@@ -25,13 +25,13 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "board_id")
-    @JsonIgnoreProperties({"user", "board", "comments"})
+    @JsonIgnoreProperties({"user", "comments"})
     private Board board;
 
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties({"user", "board", "comments"})
+    @JsonIgnoreProperties({"boards", "comments"})
     private User user;
 
 

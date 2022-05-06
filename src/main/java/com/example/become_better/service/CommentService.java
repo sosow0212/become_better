@@ -12,7 +12,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     @Transactional(readOnly = true)
-    public Comment findCommnetById(int id) {
+    public Comment findCommentById(int id) {
         return commentRepository.findById(id).orElseThrow(() -> {
             return new IllegalArgumentException("comment Id를 찾을 수 없습니다.");
         });
@@ -26,7 +26,7 @@ public class CommentService {
     @Transactional
     public Comment updateComment(int commentId, Comment updateComment) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> {
-            return new IllegalArgumentException("commnet Id를 찾을 수 없습니다.");
+            return new IllegalArgumentException("comment Id를 찾을 수 없습니다.");
         });
         comment.setContent(updateComment.getContent());
         return comment;

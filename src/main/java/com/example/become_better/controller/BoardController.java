@@ -83,13 +83,11 @@ public class BoardController {
 
     // 댓글 수정
     @PutMapping("/board/{boardId}/comment/{commentId}")
-    public ResponseEntity<?> updateCommnet(@PathVariable("boardId") Integer boardId, @PathVariable("commentId") Integer commentId ,@RequestBody Comment updateComment, Authentication authentication) {
+    public ResponseEntity<?> updateComment(@PathVariable("boardId") Integer boardId, @PathVariable("commentId") Integer commentId ,@RequestBody Comment updateComment, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         User user = principalDetails.getUser();
-        Comment comment = commentService.findCommnetById(commentId);
-        System.out.println(user);
-        System.out.println(comment.getUser());
-        if(user == comment.getUser()) {
+        Comment comment = commentService.findCommentById(commentId);
+        if(user.getId() == comment.getUser().getId()) {
             return new ResponseEntity<>(commentService.updateComment(commentId, updateComment), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("댓글 수정 실패", HttpStatus.BAD_GATEWAY);
@@ -101,7 +99,7 @@ public class BoardController {
     public ResponseEntity<?> deleteComment(@PathVariable("boardId") Integer boardId, @PathVariable("commentId") Integer commentId, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         User user = principalDetails.getUser();
-        if(user == commentService.findCommnetById(commentId).getUser()) {
+        if(user.getId() == commentService.findCommentById(commentId).getUser().getId()) {
             return new ResponseEntity<>(commentService.deleteComment(commentId), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("댓글 삭제 실패!", HttpStatus.BAD_GATEWAY);
