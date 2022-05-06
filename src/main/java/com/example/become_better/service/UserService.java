@@ -22,7 +22,7 @@ public class UserService {
     }
 
     @Transactional
-    public User writeUserBodyInfo(int id, BodyInfo bodyInfo) {
+    public BodyInfo writeUserBodyInfo(int id, BodyInfo bodyInfo) {
         User user = userRepository.findById(id).orElseThrow(()-> {
             return new IllegalArgumentException("User id를 찾을 수 없습니다.");
         });
@@ -40,9 +40,10 @@ public class UserService {
             before.setHeight(bodyInfo.getHeight());
             before.setWeight(bodyInfo.getWeight());
             before.setBmi(bodyInfo.getBmi());
+            before.setUser(user);
             user.setBodyInfo(before);
         }
-        return user;
+        return bodyInfo;
     }
 
     @Transactional

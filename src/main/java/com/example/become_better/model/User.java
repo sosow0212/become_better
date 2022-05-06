@@ -18,7 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@JsonIgnoreProperties("password")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,11 +43,11 @@ public class User {
 
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties({"user", "board"})
+    @JsonIgnoreProperties({"user", "comments"})
     private List<Board> boards = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties({"user", "comments"})
+    @JsonIgnoreProperties({"user", "comments", "board"})
     private List<Comment> comments = new ArrayList<>();
 
 
