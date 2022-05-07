@@ -1,11 +1,13 @@
 package com.example.become_better.controller;
 
+import com.example.become_better.dto.LoginRequestDto;
 import com.example.become_better.dto.RegistRequestDto;
 import com.example.become_better.model.User;
 import com.example.become_better.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +37,12 @@ public class AuthController {
     @PostMapping("/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("로그아웃 처리");
+    }
+
+    @PostMapping("/login")
+    public String login(LoginRequestDto loginRequestDto, HttpServletRequest request, HttpServletResponse response) {
+        String token = response.getHeader("Authorization");
+        return "good" + token;
     }
 
 }

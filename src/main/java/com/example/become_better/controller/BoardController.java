@@ -1,12 +1,14 @@
 package com.example.become_better.controller;
 
 import com.example.become_better.config.auth.PrincipalDetails;
+import com.example.become_better.dto.ResponseDto;
 import com.example.become_better.model.Board;
 import com.example.become_better.model.Comment;
 import com.example.become_better.model.User;
 import com.example.become_better.service.BoardService;
 import com.example.become_better.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,7 +23,8 @@ public class BoardController {
     // 전체 게시글 보기
     @GetMapping("/board")
     public ResponseEntity<?> findAllBoard() {
-        return new ResponseEntity<>(boardService.findAllBoard(), HttpStatus.OK);
+//        return new ResponseEntity<>(boardService.findAllBoard(), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto(boardService.findAllBoard(), null, "오류없음"), HttpStatus.OK);
     }
 
     // 개별 게시글 보기
