@@ -43,10 +43,12 @@ public class User {
     private BodyInfo bodyInfo;
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({"user", "comments"})
     private List<Board> boards = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({"user", "comments", "board"})
     private List<Comment> comments = new ArrayList<>();

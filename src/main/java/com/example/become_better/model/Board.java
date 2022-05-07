@@ -35,6 +35,7 @@ public class Board {
         this.createDate = LocalDate.now();
     }
 
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER) // EAGER은 호출할 때 바로 로드하는 것임
     @JoinColumn(name="user_Id")
     @JsonIgnoreProperties({"boards", "comments", "password"})
