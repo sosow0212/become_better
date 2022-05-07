@@ -32,8 +32,9 @@ function Login() {
     })
     .then((res) => {
       if(res.status === 200) {
-        console.log("hi")
-        history('/');
+        // console.log("hi")
+        // history('/');
+        console.log(res)
       } else {
         console.log("no")
       }
