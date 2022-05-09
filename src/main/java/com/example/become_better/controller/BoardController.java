@@ -21,26 +21,26 @@ public class BoardController {
     private final CommentService commentService;
 
     // 전체 게시글 보기
-    @GetMapping("/board")
+    @GetMapping("/boards")
     public ResponseEntity<?> findAllBoard() {
 //        return new ResponseEntity<>(boardService.findAllBoard(), HttpStatus.OK);
         return new ResponseEntity<>(new ResponseDto(boardService.findAllBoard(), null, "오류없음"), HttpStatus.OK);
     }
 
     // 개별 게시글 보기
-    @GetMapping("/board/{boardId}")
+    @GetMapping("/boards/{boardId}")
     public ResponseEntity<?> findBoardByBoardId(@PathVariable("boardId") Integer boardId) {
         return new ResponseEntity<>(boardService.findBoardByBoardId(boardId), HttpStatus.OK);
     }
 
     // 유저가 작성한 게시글 보기
-    @GetMapping("/board/history/{userId}")
+    @GetMapping("/boards/history/{userId}")
     public ResponseEntity<?> findAllBoardByUserId(@PathVariable("userId") Integer userId) {
         return new ResponseEntity<>(boardService.findBoardsByUserId(userId), HttpStatus.OK);
     }
 
     // 게시글 작성하기
-    @PostMapping("/board")
+    @PostMapping("/boards")
     public ResponseEntity<?> writeBoard(@RequestBody Board board, Authentication authentication) {
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         board.setUser(principal.getUser());
@@ -48,7 +48,7 @@ public class BoardController {
     }
 
     // 게시글 삭제하기
-    @DeleteMapping("/board/{boardId}")
+    @DeleteMapping("/boards/{boardId}")
     public ResponseEntity<?> deleteBoard(@PathVariable("boardId") Integer boardId, Authentication authentication) {
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         Board board = boardService.findBoardByBoardId(boardId);
@@ -60,7 +60,7 @@ public class BoardController {
     }
 
     // 게시글 수정
-    @PutMapping("/board/{boardId}")
+    @PutMapping("/boards/{boardId}")
     public ResponseEntity<?> updateBoard(@RequestBody Board updateBoard, @PathVariable("boardId") Integer boardId, Authentication authentication) {
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         Board board = boardService.findBoardByBoardId(boardId);
@@ -75,7 +75,7 @@ public class BoardController {
     //////////////// 댓글 ///////////////////////////
 
     // 댓글 작성
-    @PostMapping("/board/{boardId}/comment")
+    @PostMapping("/boards/{boardId}/comments")
     public ResponseEntity<?> writeComment(@PathVariable("boardId") Integer boardId, @RequestBody Comment comment, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Board board = boardService.findBoardByBoardId(boardId);
@@ -85,7 +85,7 @@ public class BoardController {
     }
 
     // 댓글 수정
-    @PutMapping("/board/{boardId}/comment/{commentId}")
+    @PutMapping("/boards/{boardId}/comments/{commentId}")
     public ResponseEntity<?> updateComment(@PathVariable("boardId") Integer boardId, @PathVariable("commentId") Integer commentId ,@RequestBody Comment updateComment, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         User user = principalDetails.getUser();
@@ -98,7 +98,7 @@ public class BoardController {
     }
 
     // 댓글 삭제
-    @DeleteMapping("/board/{boardId}/comment/{commentId}")
+    @DeleteMapping("/boards/{boardId}/comments/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable("boardId") Integer boardId, @PathVariable("commentId") Integer commentId, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         User user = principalDetails.getUser();

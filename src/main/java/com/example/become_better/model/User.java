@@ -23,10 +23,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false, length = 30, unique = true)
     private String name;
+
+    @Column(nullable = false, length = 30, unique = true)
     private String email;
 
-    @Column(name = "username", length = 50)
+    @Column(nullable = false, length = 20)
     private String username;
 
     @JsonIgnore

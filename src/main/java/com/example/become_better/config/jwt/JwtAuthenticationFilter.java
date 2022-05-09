@@ -1,7 +1,10 @@
 package com.example.become_better.config.jwt;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -10,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.example.become_better.config.auth.PrincipalDetails;
 import com.example.become_better.dto.LoginRequestDto;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -90,7 +95,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
 
         // /login 마치고 나면, 토큰을 body로 보내줌
-        response.getWriter().write(String.valueOf(jwtToken));
+        response.setContentType("application/json");
+//        response.getWriter().write(String.valueOf(jwtToken));
+        Gson gson = new Gson();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token", jwtToken);
+        String jsonToken = gson.toJson(jsonObject);
+        response.getWriter().write(jsonToken);
     }
 
 }
