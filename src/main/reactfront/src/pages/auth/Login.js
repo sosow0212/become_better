@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
-import { useNavigate, useParams } from 'react-router-dom';
-
+import { useNavigate, useParams } from "react-router-dom";
 
 function Login() {
   const history = useNavigate();
@@ -13,6 +12,9 @@ function Login() {
     password: "",
   });
 
+  const [token, setToken] = useState(null);
+
+  // id, pw 밸류 변경
   const onChange = (e) => {
     const { value, name } = e.target; // e.target에서 name, value 추출
     setLoginData({
@@ -21,26 +23,30 @@ function Login() {
     });
   };
 
+  // 로그인 버튼 누르면 로그인 후, 토큰 처리
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(loginData);
-
-    axios
-    .post("http://localhost:8080/login", {
-      username: loginData.username,
-      password: loginData.password,
-    })
-    .then((res) => {
-      if(res.status === 200) {
-        // console.log("hi")
-        // history('/');
-        console.log(res)
-      } else {
-        console.log("no")
-      }
-      
-    })
+    tokenProcess();
   };
+
+
+  const tokenProcess = async () => {
+    axios
+      .post("http://localhost:8080/login", {
+        username: loginData.username,
+        password: loginData.password,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setToken(res.data.token);
+          console.log(token);
+          localStorage.setItem("Authorization", token);
+          // history("/boards");
+        } else {
+          console.log("no");
+        }
+      });
+  }
 
   return (
     <div className="mt-5">

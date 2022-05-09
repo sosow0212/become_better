@@ -27,6 +27,9 @@ const Header = () => {
             <Link to="/login" className="navbar-brand">
               로그인
             </Link>
+            <Link to="/logout" className="navbar-brand">
+              로그아웃
+            </Link>
             <Link to="/boards" className="navbar-brand">
               게시판
             </Link>
